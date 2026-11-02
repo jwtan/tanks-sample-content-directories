@@ -818,7 +818,7 @@ MonoBehaviour:
   m_SoftShadowQuality: 0
   m_RenderingLayersMask:
     serializedVersion: 0
-    m_Bits: 1
+    m_Bits: 256
   m_ShadowRenderingLayersMask:
     serializedVersion: 0
     m_Bits: 1
@@ -876,7 +876,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 256
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
@@ -1026,7 +1026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a000792783c934885973b761b3f96f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NumRoundsToWin: 1
+  m_NumRoundsToWin: 3
   m_StartDelay: 3
   m_EndDelay: 3
   m_CameraControl: {fileID: 1771596988}
@@ -2010,6 +2010,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145380024348214122, guid: 328826c1fd47c3e4bb07a1dec3ec4c19,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5559140075154448999, guid: 328826c1fd47c3e4bb07a1dec3ec4c19,
         type: 3}

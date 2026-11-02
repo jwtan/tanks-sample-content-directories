@@ -1,5 +1,5 @@
+using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Tanks.Complete
@@ -7,8 +7,6 @@ namespace Tanks.Complete
     // Handle a simple pause menu displaying the control and allowing to restart the game or quit it.
     public class PauseMenu : MonoBehaviour
     {
-        public GameManager m_GameManager;
-        
         public RectTransform m_PauseMenuRoot;           // Reference to the root Transform of the Pause Menu
         public RectTransform m_PauseMenuButtonsRoot;    // Reference to the root containing the button of the menu
         public Button m_ControlScreenButton;            // Reference to the button opening the control screen
@@ -19,6 +17,8 @@ namespace Tanks.Complete
         public Button m_SelectTankButton;               // Reference to the button that go back to tank selection
         public Button m_QuitButton;                     // Reference to the button that quit the Game
 
+        public Action OnSelectTanks;
+        
         public void Init()
         {
             // Setup clicking on the back button on the Control Screen disabling the Control Screen and re-enabling the pause menu buttons
@@ -37,11 +37,10 @@ namespace Tanks.Complete
                 m_PauseMenuButtonsRoot.gameObject.SetActive(false);
             });
 
-            // Setup clicking on the Tank Selection button reloading the scene (effectively sending back to the main menu)
+            // Setup clicking on the Tank Selection button
             m_SelectTankButton.onClick.AddListener(() =>
             {
-                Time.timeScale = 1.0f;
-                m_GameManager.ReturnToTitleScreen();
+                OnSelectTanks?.Invoke();
             });
 
             // If the application is the editor or a web build, quitting the game is impossible...

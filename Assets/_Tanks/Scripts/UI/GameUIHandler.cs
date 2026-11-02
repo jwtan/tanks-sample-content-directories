@@ -73,6 +73,14 @@ namespace Tanks.Complete
                 var rectTransform = m_PauseMenuButton.GetComponent<RectTransform>();
                 //force the button to be on top of everything so it can be clicked no matter what other screen is shown 
                 rectTransform.SetAsLastSibling();
+
+                m_PauseMenu.OnSelectTanks += () =>
+                {
+                    ToggleStartMenu(true);
+                    
+                    m_PauseMenuButton.gameObject.SetActive(false);
+                    m_PauseMenu.gameObject.SetActive(false);
+                };
             }
 
             // We use an array because the code was originally written to have any number of prefabs and player, but
@@ -229,20 +237,12 @@ namespace Tanks.Complete
             
             // Tank previews lighting
             m_GameManager.m_TankPreviewLighting.gameObject.SetActive(show);
-            
-            // Tank previews
-            foreach (var slot in m_PlayerSlots)
-            {
-                // Destroy(slot.TankPreview);
-            }
         }
         
         private void TogglePause()
         {
             m_PauseMenu.TogglePause();
         }
-
-        private bool isShow = true;
         
         private void Update()
         {
@@ -250,12 +250,6 @@ namespace Tanks.Complete
             // but Unity Play cannot enforce an orientation so we need it to be readable even in portrait)
             float ratio = Screen.width / (float)Screen.height;
             m_CanvasScaler.matchWidthOrHeight = ratio > 1.0f ? 1.0f : 0.0f;
-            
-            if (Keyboard.current[Key.W].wasPressedThisFrame)
-            {
-                ToggleStartMenu(isShow = !isShow);
-                Debug.Log("W is held down");
-            }
         }
     }
 }

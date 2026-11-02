@@ -143,9 +143,13 @@ namespace Tanks.Complete
             
             // go through all renderers of that tank
             MeshRenderer[] renderers = TankPreview.GetComponentsInChildren<MeshRenderer>();
+            var renderingLayerMask = RenderingLayerMask.GetMask(new string[] { "Tank Preview" });
+            
             for (int i = 0; i < renderers.Length; i++)
             {
                 var renderer = renderers[i];
+                renderer.renderingLayerMask = renderingLayerMask;
+                
                 for (int j = 0; j < renderer.materials.Length; ++j)
                 {
                     // then when we find the TankColor material
@@ -155,6 +159,14 @@ namespace Tanks.Complete
                         renderer.materials[j].color = m_SlotColor;
                     }
                 }
+            }
+
+            // disable particles
+            var particles = TankPreview.GetComponentsInChildren<ParticleSystem>();
+            foreach (var particle in particles)
+            {
+                var emission = particle.emission;
+                emission.enabled = false;
             }
             
             //Disable all audio

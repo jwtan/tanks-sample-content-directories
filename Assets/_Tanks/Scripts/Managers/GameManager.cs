@@ -44,7 +44,8 @@ namespace Tanks.Complete
 
         private GameState m_CurrentState;
         private int m_CurrentLevelIndex;
-        
+
+        private Coroutine m_GameLoop;
         private int m_RoundNumber;                  // Which round the game is currently on.
         private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
         private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
@@ -90,9 +91,11 @@ namespace Tanks.Complete
 
             SpawnAllTanks();
             SetCameraTargets();
+            
+            RoundReset();
 
             // Once the tanks have been created and the camera is using them as targets, start the game.
-            StartCoroutine (GameLoop ());
+            m_GameLoop = StartCoroutine (GameLoop ());
         }
 
         void ChangeGameState(GameState newState)
@@ -106,28 +109,21 @@ namespace Tanks.Complete
                     break;
             }
         }
-
-        public void ReturnToTitleScreen()
-        {
-            StartCoroutine(LoadSceneAsync("Demo_Game_Start", (asyncOperation) =>
-            {
-                var gameManagers = FindObjectsByType<GameManager>(FindObjectsSortMode.None);
-
-                foreach (var gameManager in gameManagers)
-                {
-                    if (gameManager != this)
-                        DestroyImmediate(gameManager.gameObject);
-                }
-            }));
-        }
-
+        
         // Called by the menu, passing along the data from the selection made by the player in the menu
         public void StartGame(PlayerData[] playerData)
         {
+            Time.timeScale = 1.0f;
+
+            if (m_GameLoop != null)
+            {
+                StopCoroutine(m_GameLoop);
+                m_GameLoop = null;
+            }
+
             m_TankData = playerData;
             m_PlayerCount = m_TankData.Length;
-
-            m_CurrentLevelIndex = 0;
+            
             StartCoroutine(LoadSceneAsync(m_LevelNames[m_CurrentLevelIndex], OnLevelLoaded));
         }
         
@@ -219,6 +215,8 @@ namespace Tanks.Complete
             // This code is not run until 'RoundEnding' has finished.  At which point, check if a game winner has been found.
             if (m_GameWinner != null)
             {
+                RoundReset();
+                
                 // If there is a game winner, go to the next level.
                 m_CurrentLevelIndex++;
                 if (m_CurrentLevelIndex >= m_LevelNames.Length)
@@ -230,7 +228,20 @@ namespace Tanks.Complete
             {
                 // If there isn't a winner yet, restart this coroutine so the loop continues.
                 // Note that this coroutine doesn't yield.  This means that the current version of the GameLoop will end.
-                StartCoroutine (GameLoop ());
+                m_GameLoop = StartCoroutine (GameLoop ());
+            }
+        }
+
+
+        private void RoundReset()
+        {
+            // Reset round number
+            m_RoundNumber = 0;
+
+            // Reset wins
+            for (int i = 0; i < m_PlayerCount; i++)
+            {
+                m_SpawnPoints[i].m_Wins = 0;
             }
         }
 
