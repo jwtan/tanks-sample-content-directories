@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using Unity.Loading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -44,6 +45,8 @@ namespace Tanks.Complete
 
         private GameState m_CurrentState;
         private int m_CurrentLevelIndex;
+        
+        private ContentDirectoryManager m_ContentDirectoryManager;
 
         private Coroutine m_GameLoop;
         private int m_RoundNumber;                  // Which round the game is currently on.
@@ -75,11 +78,21 @@ namespace Tanks.Complete
 
             m_TitleText = textRef.Text;
             m_TitleText.text = "";
-
+            
+            m_ContentDirectoryManager = new ContentDirectoryManager();
+            m_ContentDirectoryManager.Register(CoreRootAsset.DirectoryName); 
+            
+            var mainRootAsset = ContentLoadManager.GetRootAssets<CoreRootAsset>()[0]; 
+            
+            m_Tank1Prefab = mainRootAsset.tank1Prefab.Load(); 
+            m_Tank2Prefab = mainRootAsset.tank2Prefab.Load(); 
+            m_Tank3Prefab = mainRootAsset.tank3Prefab.Load(); 
+            m_Tank4Prefab = mainRootAsset.tank4Prefab.Load();
+             
             // The GameManager require 4 tanks prefabs, as the start menu have 4 fixed slot and need the 4 tanks to show there
             if (m_Tank1Prefab == null || m_Tank2Prefab == null || m_Tank3Prefab == null || m_Tank4Prefab == null)
             {
-                Debug.LogError("You need to assign 4 tank prefab in the GameManager!");
+                Debug.LogError("Tank prefabs not assigned or content directories not built");
             }
         }
 

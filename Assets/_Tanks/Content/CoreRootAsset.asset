@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cadff5c1ad75b04da3374d16f2c592e, type: 3}
+  m_Name: CoreRootAsset
+  m_EditorClassIdentifier: Assembly-CSharp::ContentDirectoryRootAsset
+  tank1Prefab:
+    m_LoadableObjectId: {fileID: 7273797243869566079, loadable: 1, guid: e8a208e9857544b0292cc3d24b0106b6, type: 3}
+  tank2Prefab:
+    m_LoadableObjectId: {fileID: 2259141219951711155, loadable: 1, guid: 1e8ed6dfd612e4b4d9c8b4459c750afa, type: 3}
+  tank3Prefab:
+    m_LoadableObjectId: {fileID: 2204552607319198144, loadable: 1, guid: 7fdbd076ee75a4b21ae778c47c39db3e, type: 3}
+  tank4Prefab:
+    m_LoadableObjectId: {fileID: 2229267103195021085, loadable: 1, guid: f7304e3e69d7944849cbc911fbf4a3a2, type: 3}
