@@ -142,7 +142,7 @@ namespace Tanks.Complete
         
         private void OnLevelLoaded(AsyncOperation asyncOperation)
         {
-            var levelManager = FindFirstObjectByType<LevelManager>();
+            var levelManager = FindAnyObjectByType<LevelManager>();
             m_SpawnPoints = levelManager.m_SpawnPoints;
             
             ChangeGameState(GameState.Game);
