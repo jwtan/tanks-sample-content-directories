@@ -38,13 +38,13 @@ namespace Tanks.Complete
         public GameObject m_Tank3Prefab;            // The Prefab used by the tank in Slot 3 of the Menu
         public GameObject m_Tank4Prefab;            // The Prefab used by the tank in Slot 4 of the Menu
         
-        [Header("Levels")]
-        public string[] m_LevelNames;
+        [Header("Scenes")]
+        public LoadableSceneId[] m_Scenes;
         
         public TankManager[] m_SpawnPoints { get; private set; } // A collection of managers for enabling and disabling different aspects of the tanks.
 
         private GameState m_CurrentState;
-        private int m_CurrentLevelIndex;
+        private int m_CurrentSceneIndex;
         
         private ContentDirectoryManager m_ContentDirectoryManager;
 
@@ -78,16 +78,18 @@ namespace Tanks.Complete
 
             m_TitleText = textRef.Text;
             m_TitleText.text = "";
-            
+
             m_ContentDirectoryManager = new ContentDirectoryManager();
-            m_ContentDirectoryManager.Register(CoreRootAsset.DirectoryName); 
+            m_ContentDirectoryManager.Register(CoreRootAsset.DirectoryName);
             
-            var mainRootAsset = ContentLoadManager.GetRootAssets<CoreRootAsset>()[0]; 
+            var coreRootAsset = ContentLoadManager.GetRootAssets<CoreRootAsset>()[0];
+
+            m_Scenes = coreRootAsset.scenes;
             
-            m_Tank1Prefab = mainRootAsset.tank1Prefab.Load(); 
-            m_Tank2Prefab = mainRootAsset.tank2Prefab.Load(); 
-            m_Tank3Prefab = mainRootAsset.tank3Prefab.Load(); 
-            m_Tank4Prefab = mainRootAsset.tank4Prefab.Load();
+            m_Tank1Prefab = coreRootAsset.tank1Prefab.Load();
+            m_Tank2Prefab = coreRootAsset.tank2Prefab.Load();
+            m_Tank3Prefab = coreRootAsset.tank3Prefab.Load();
+            m_Tank4Prefab = coreRootAsset.tank4Prefab.Load();
              
             // The GameManager require 4 tanks prefabs, as the start menu have 4 fixed slot and need the 4 tanks to show there
             if (m_Tank1Prefab == null || m_Tank2Prefab == null || m_Tank3Prefab == null || m_Tank4Prefab == null)
@@ -137,12 +139,12 @@ namespace Tanks.Complete
             m_TankData = playerData;
             m_PlayerCount = m_TankData.Length;
             
-            StartCoroutine(LoadSceneAsync(m_LevelNames[m_CurrentLevelIndex], OnLevelLoaded));
+            StartCoroutine(LoadSceneAsync(m_Scenes[m_CurrentSceneIndex], OnLevelLoaded));
         }
         
-        IEnumerator LoadSceneAsync(string sceneName, Action<AsyncOperation> callback = null)
+        IEnumerator LoadSceneAsync(LoadableSceneId sceneId, Action<AsyncOperation> callback = null)
         {
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneId, new LoadSceneParameters(LoadSceneMode.Single));
             
             if(callback != null)
                 asyncLoad.completed += callback;
@@ -231,11 +233,11 @@ namespace Tanks.Complete
                 RoundReset();
                 
                 // If there is a game winner, go to the next level.
-                m_CurrentLevelIndex++;
-                if (m_CurrentLevelIndex >= m_LevelNames.Length)
-                    m_CurrentLevelIndex = 0;
+                m_CurrentSceneIndex++;
+                if (m_CurrentSceneIndex >= m_Scenes.Length)
+                    m_CurrentSceneIndex = 0;
                 
-                StartCoroutine(LoadSceneAsync(m_LevelNames[m_CurrentLevelIndex], OnLevelLoaded));
+                StartCoroutine(LoadSceneAsync(m_Scenes[m_CurrentSceneIndex], OnLevelLoaded));
             }
             else
             {

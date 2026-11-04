@@ -4,21 +4,21 @@ using UnityEngine;
 
 public static class BuildScript
 {
-    [MenuItem("Build/Build All")]
+    [MenuItem("Build/Build All", false, 0)]
     public static void BuildAll()
     {
         BuildContentDirectories();
         BuildPlayer();
     }
 
-    [MenuItem("Build/Build Player")]
+    [MenuItem("Build/Build Player", false, 1)]
     public static void BuildPlayer()
     {
         // Todo:
     }
 
     // Reference: https://docs.unity.com/en-us/engine/6000.6/manual/assets-and-media/assets-managing-runtime/content-directories/create.
-    [MenuItem("Build/Build Content Directories")]
+    [MenuItem("Build/Build Content Directories", false, 2)]
     public static void BuildContentDirectories()
     {
         var outputPath = ContentDirectoryManager.ContentDirectoryBuildPath + "/" + CoreRootAsset.DirectoryName;

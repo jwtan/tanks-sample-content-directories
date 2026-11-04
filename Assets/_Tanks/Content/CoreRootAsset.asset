@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cadff5c1ad75b04da3374d16f2c592e, type: 3}
   m_Name: CoreRootAsset
   m_EditorClassIdentifier: Assembly-CSharp::ContentDirectoryRootAsset
+  scenes:
+  - m_SceneGUID: 37961ba4d27bd46428d20c2ffe403dc3
+  - m_SceneGUID: 37c9d2c08de91d04183fed69ef45a7bc
+  - m_SceneGUID: 7d48af2f9c7c14840abfc5e21827efaa
   tank1Prefab:
     m_LoadableObjectId: {fileID: 7273797243869566079, loadable: 1, guid: e8a208e9857544b0292cc3d24b0106b6, type: 3}
   tank2Prefab:

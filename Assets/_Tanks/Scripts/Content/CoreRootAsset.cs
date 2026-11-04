@@ -7,6 +7,9 @@ public class CoreRootAsset : ScriptableObject
 {
     public static string DirectoryName = "Core";
     
+    // Scene assets
+    public LoadableSceneId[] scenes;
+    
     // Tank assets
     public Loadable<GameObject> tank1Prefab;
     public Loadable<GameObject> tank2Prefab;
